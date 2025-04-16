@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, request
-from cart import Cart
-from billing import calculate_bill
-from db import get_connection
+from cart import Cart # type: ignore
+from billing import calculate_bill # type: ignore
+from db import get_connection # type: ignore
 
 app = Flask(__name__)
 cart = Cart()
