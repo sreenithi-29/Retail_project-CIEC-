@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Retail Store - Products</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #e0eafc, #cfdef3);
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.03);
+        }
+        .btn-primary, .btn-success {
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="container py-5">
+    <h1 class="text-center mb-5">🛍️ Welcome to Our Retail Store</h1>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for product in products %}
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{ product.image_url }}" class="card-img-top"
+                     style="max-height: 200px; width: auto; margin: 0 auto;" alt="{{ product.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">
+                        Price: ₹{{ product.price }} <br>
+                        Category: {{ product.category }} <br>
+                        {% if product.stock > 0 %}
+                            <span class="text-success">In Stock: {{ product.stock }}</span>
+                        {% else %}
+                            <span class="text-danger fw-bold">Out of Stock</span>
+                        {% endif %}
+                    </p>
+                    {% if product.stock > 0 %}
+                    <form method="post" action="/add-to-cart">
+                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                        <input type="number" name="quantity" min="1" max="{{ product.stock }}" value="1" class="form-control mb-2" required>
+                        <button type="submit" class="btn btn-primary w-100">Add to Cart</button>
+                    </form>
+                    {% else %}
+                    <button class="btn btn-secondary w-100" disabled>Out of Stock</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+        <a href="/cart" class="btn btn-success">🛒 View Cart</a>
+    </div>
+</body>
+</html>
